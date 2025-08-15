@@ -192,16 +192,16 @@ jobs:
             NPM_CONFIG_FUND=false
             ${{ inputs.build_args }}
 
-  provenance:
-    name: Attach Provenance (SLSA)
-    needs: [docker-build, prep]
-    runs-on: ubuntu-latest
-    if: ${{ always() && needs.docker-build.result == 'success' }}
-    steps:
-      - name: Attest Build Provenance
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ needs.prep.outputs.image_name }}
-          subject-digest: ${{ needs.docker-build.outputs.digest }}
-          push-to-registry: true
-          show-summary: true
+  # provenance:
+  #   name: Attach Provenance (SLSA)
+  #   needs: [docker-build, prep]
+  #   runs-on: ubuntu-latest
+  #   if: ${{ always() && needs.docker-build.result == 'success' }}
+  #   steps:
+  #     - name: Attest Build Provenance
+  #       uses: actions/attest-build-provenance@v1
+  #       with:
+  #         subject-name: ${{ env.REGISTRY }}/${{ needs.prep.outputs.image_name }}
+  #         subject-digest: ${{ needs.docker-build.outputs.digest }}
+  #         push-to-registry: true
+  #         show-summary: true
