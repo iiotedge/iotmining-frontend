@@ -3,28 +3,64 @@ name: Docker Publish (GHCR)
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]   # semantic version tags
-    paths-ignore:
-      - 'charts/**'      # keep docker job separate from chart changes (optional)
+    tags: [ 'v*.*.*' ]        # build on semver tags too
+  workflow_dispatch:           # allow manual runs with inputs
+    inputs:
+      image_name:
+        description: 'Image name (owner/name). Default: <owner>/iotmining-frontend'
+        required: false
+        type: string
+      custom_tag:
+        description: 'Optional custom tag (e.g., v1.0.0, staging, canary)'
+        required: false
+        type: string
+      docker_context:
+        description: 'Docker build context'
+        default: '.'
+        required: false
+        type: string
+      dockerfile:
+        description: 'Path to Dockerfile'
+        default: 'Dockerfile'
+        required: false
+        type: string
+      platforms:
+        description: 'Build platforms'
+        default: 'linux/amd64,linux/arm64'
+        required: false
+        type: string
+      build_args:
+        description: 'Build args (KEY=VALUE lines)'
+        required: false
+        type: string
 
 env:
   REGISTRY: ghcr.io
+  # Default image name if not provided as input: <owner>/iotmining-frontend
   IMAGE_NAME: ${{ github.repository_owner }}/iotmining-frontend
 
 permissions:
   contents: read
   packages: write
-  attestations: write
   id-token: write
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Resolve image name
+        id: imagename
+        run: |
+          if [ -n "${{ inputs.image_name }}" ]; then
+            echo "val=${{ inputs.image_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "val=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up QEMU (multi-arch)
         uses: docker/setup-qemu-action@v3
@@ -32,6 +68,7 @@ jobs:
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Login with GITHUB_TOKEN (works for GHCR in same org/user)
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -39,38 +76,54 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Docker metadata (tags, labels)
+      # Compute tags via docker/metadata-action
+      - name: Extract Docker metadata (tags/labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.imagename.outputs.val }}
           tags: |
+            # Always tag by commit
             type=raw,value=sha-${{ github.sha }}
+            # Branch name (e.g., main)
             type=ref,event=branch
+            # Latest only on default branch
             type=raw,value=latest,enable={{is_default_branch}}
+            # If you push a git tag like v1.2.3, also create semver tags
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+            # Optional custom tag from manual dispatch
+            type=raw,value=${{ inputs.custom_tag }},enable=${{ inputs.custom_tag != '' }}
           labels: |
             org.opencontainers.image.source=${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.title=iotmining-frontend
 
-      - name: Build & Push
+      # Optional: if your Dockerfile needs private NPM auth, surface a .npmrc from secrets
+      # (Uncomment if you rely on private registries)
+      # - name: Create npmrc for build
+      #   if: ${{ secrets.NPM_TOKEN != '' }}
+      #   run: |
+      #     echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+
+      - name: Build & Push (multi-arch)
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ${{ inputs.docker_context || '.' }}
+          file: ${{ inputs.dockerfile || 'Dockerfile' }}
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ inputs.platforms || 'linux/amd64,linux/arm64' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # (Optional) Generate SLSA provenance/attestations
-      - name: Attest Build Provenance
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          subject-digest: ${{ steps.meta.outputs.digest }}
-          push-to-registry: true
+          # Build args from repo Variables/Secrets and/or workflow input
+          build-args: |
+            VITE_API_BASE=${{ vars.VITE_API_BASE }}
+            VITE_BASE=${{ vars.VITE_BASE }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            ${{ inputs.build_args }}
+          # If you used secrets in Dockerfile with --mount=type=secret,id=npmrc
+          # secrets: |
+          #   id=npmrc,src=.npmrc
