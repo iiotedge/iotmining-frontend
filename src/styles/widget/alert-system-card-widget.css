@@ -1,0 +1,298 @@
+/* alert-system-card-widget.css */
+
+.alert-system-card-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.alert-system-card-widget .ant-card-head {
+  background-color: var(--card-header-background);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.alert-system-card-widget .ant-card-head-title {
+  color: var(--text-color);
+}
+
+.alert-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.alert-card-title {
+  margin-bottom: 0 !important;
+  color: var(--text-color);
+}
+
+.alert-badge .ant-badge-count {
+  background-color: #f5222d; /* Red for unread count */
+  box-shadow: 0 0 0 1px #fff;
+}
+
+.alert-bell-icon {
+  font-size: 24px;
+  color: #faad14; /* Orange for bell */
+  animation: bell-shake 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes bell-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.alert-system-card-widget .ant-card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto; /* Enable scrolling for alerts list */
+}
+
+.alert-system-loading {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
+
+.alert-system-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.no-alerts-empty {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.no-alerts-empty .ant-empty-description {
+  color: var(--text-color-secondary);
+}
+
+.alert-list-item {
+  border-bottom: 1px solid var(--border-color-light);
+  padding: 12px 0;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.alert-list-item:last-child {
+  border-bottom: none;
+}
+
+.alert-list-item.unread {
+  background-color: rgba(255, 197, 61, 0.05); /* Light highlight for unread */
+  border-left: 4px solid #faad14; /* Orange bar for unread */
+  padding-left: 12px;
+}
+
+.alert-list-item.read .read-text {
+  color: var(--text-color-secondary);
+}
+
+.alert-list-item.new-alert-animation {
+  animation: new-alert-fade-in 0.8s ease-out;
+}
+
+@keyframes new-alert-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-icon-wrapper {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.alert-icon-wrapper.red {
+  background-color: #f5222d;
+}
+.alert-icon-wrapper.orange {
+  background-color: #faad14;
+}
+.alert-icon-wrapper.gold {
+  background-color: #faad14;
+} /* Warning is gold */
+.alert-icon-wrapper.blue {
+  background-color: #1890ff;
+}
+.alert-icon-wrapper.default {
+  background-color: #bfbfbf;
+}
+
+.alert-list-item .ant-list-item-meta-title {
+  margin-bottom: 4px;
+  color: var(--text-color);
+}
+
+.alert-list-item .ant-list-item-meta-description {
+  color: var(--text-color-secondary);
+}
+
+.alert-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.alert-meta .ant-tag {
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.alert-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+/* Dark Mode */
+.alert-system-card-widget.dark-mode {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.alert-system-card-widget.dark-mode .ant-card-head {
+  background-color: #2a2a2a;
+  border-bottom-color: #3a3a3a;
+}
+
+.alert-system-card-widget.dark-mode .alert-card-title {
+  color: #e0e0e0;
+}
+
+.alert-system-card-widget.dark-mode .alert-bell-icon {
+  color: #ffc53d; /* Lighter orange for dark mode bell */
+}
+
+.alert-system-card-widget.dark-mode .ant-card-body {
+  color: #e0e0e0;
+}
+
+.alert-system-card-widget.dark-mode .no-alerts-empty .ant-empty-description {
+  color: #a0a0a0;
+}
+
+.alert-system-card-widget.dark-mode .alert-list-item {
+  border-bottom-color: #3a3a3a;
+}
+
+.alert-system-card-widget.dark-mode .alert-list-item.unread {
+  background-color: rgba(255, 197, 61, 0.08);
+  border-left-color: #ffc53d; /* Lighter orange for dark mode unread bar */
+}
+
+.alert-system-card-widget.dark-mode .alert-list-item.read .read-text {
+  color: #a0a0a0;
+}
+
+.alert-system-card-widget.dark-mode .ant-list-item-meta-title {
+  color: #e0e0e0;
+}
+
+.alert-system-card-widget.dark-mode .ant-list-item-meta-description {
+  color: #a0a0a0;
+}
+
+.alert-system-card-widget.dark-mode .alert-actions {
+  border-top-color: #3a3a3a;
+}
+
+.alert-system-card-widget.dark-mode .ant-btn-link {
+  color: #1890ff;
+}
+
+.alert-system-card-widget.dark-mode .ant-btn-link:hover {
+  color: #40a9ff;
+}
+
+.alert-system-card-widget.dark-mode .ant-btn-danger {
+  background-color: #cf1322;
+  border-color: #cf1322;
+}
+
+.alert-system-card-widget.dark-mode .ant-btn-danger:hover {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .alert-icon-wrapper {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+  }
+  .alert-list-item .ant-list-item-meta-title {
+    font-size: 14px;
+  }
+  .alert-meta .ant-tag {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+  .alert-list-item .ant-list-item-meta-description {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .alert-card-title {
+    font-size: 18px;
+  }
+  .alert-bell-icon {
+    font-size: 20px;
+  }
+  .alert-list-item {
+    padding: 8px 0;
+  }
+  .alert-list-item.unread {
+    padding-left: 8px;
+  }
+  .alert-actions .ant-btn {
+    width: 100%;
+  }
+}

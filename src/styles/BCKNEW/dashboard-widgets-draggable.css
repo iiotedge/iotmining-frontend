@@ -1,0 +1,132 @@
+--- Dashboard Editor Draggable/Resizable Widget Styles ---
+
+/* Each react-grid-item (cell) should be flex and fill height for widgets */
+.react-grid-item {
+  display: flex !important;
+  flex-direction: column;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  transition: all 150ms cubic-bezier(.23,1.12,.59,1);
+  transition-property: left, top, width, height;
+}
+
+/* The widget container (outer div of each widget) */
+.widget-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--component-background);
+  transition: background-color 0.3s;
+  display: flex !important;
+  flex-direction: column;
+  height: 100% !important;
+  min-height: 0 !important;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,21,41,0.05);
+  border: 1px solid var(--border-color);
+  padding: 0;
+}
+
+/* Widget controls (edit, copy, delete, etc) floating in top-right */
+.widget-controls {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 10;
+  padding: 3px 2px;
+  gap: 2px;
+  display: flex;
+  background: rgba(240, 242, 245, 0.8);
+  border-radius: 0 0 0 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.widget-container:hover .widget-controls,
+.widget-controls:focus-within {
+  opacity: 1;
+}
+.dark-theme .widget-controls {
+  background: rgba(32, 32, 32, 0.75);
+}
+
+/* Drag handle for moving widgets */
+.widget-drag-handle {
+  cursor: move;
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 14px;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ececec;
+  color: #222;
+  user-select: none;
+  flex: 0 0 36px;
+  min-height: 28px;
+  max-height: 38px;
+  transition: background 0.2s;
+}
+.widget-drag-handle:hover {
+  background-color: #e6f7ff;
+}
+.dark-theme .widget-drag-handle {
+  background: #18181c;
+  color: #eee;
+  border-bottom: 1px solid #222;
+}
+
+/* Widget body (widget content area) */
+.widget-body {
+  flex: 1 1 0%;
+  min-height: 0 !important;
+  height: 100%;
+  overflow: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+.widget-container > div:last-child {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+/* Resizer handle */
+.react-grid-item > .react-resizable-handle {
+  width: 14px;
+  height: 14px;
+  right: 2px;
+  bottom: 2px;
+}
+
+/* Placeholder while dragging */
+.react-grid-item.react-grid-placeholder {
+  background: var(--primary-color);
+  opacity: 0.08;
+  border-radius: 2px;
+}
+
+/* Responsive touch: always show widget controls for mobile usability */
+@media (hover: none) {
+  .widget-controls {
+    opacity: 1;
+    background: rgba(245, 245, 245, 0.96);
+  }
+  .dark-theme .widget-controls {
+    background: rgba(20, 20, 20, 0.95);
+  }
+}
+
+/* Responsive tweaks for widget header/body */
+@media (max-width: 768px) {
+  .widget-container {
+    border-radius: 1px;
+  }
+  .widget-drag-handle {
+    font-size: 13px;
+    padding: 4px 8px;
+    flex: 0 0 24px;
+    min-height: 24px;
+  }
+  .widget-body {
+    padding: 2px;
+  }
+}

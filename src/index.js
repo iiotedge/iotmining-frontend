@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from "./App"
+import "./styles/global.css"
+import "./styles/rule-chain.css"
+// import "./styles/dashboard.css"
+// import "./styles/dashboard-widgets-draggable.css"
+
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

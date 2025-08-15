@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frontend.fullname" . }}-nginx
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+data:
+  nginx.conf: |
+    user  nginx;
+    worker_processes auto;
+
+    events { worker_connections 1024; }
+
+    http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
+
+      {{- if .Values.nginx.gzip }}
+      gzip on;
+      gzip_comp_level 5;
+      gzip_min_length 256;
+      gzip_vary on;
+      gzip_types text/plain text/css application/javascript application/json application/xml+rss image/svg+xml;
+      {{- end }}
+
+      sendfile on;
+      tcp_nodelay on;
+      keepalive_timeout 65;
+
+      {{- range .Values.nginx.extraHttpDirectives }}
+      {{ . }}
+      {{- end }}
+
+      map $sent_http_content_type $cache_control {
+        default "public, max-age=60";
+        "~*text/html" {{ ternary "\"no-cache\"" "\"public, max-age=60\"" .Values.nginx.htmlNoCache }};
+        "~*application/javascript" "public, max-age=31536000, immutable";
+        "~*text/css" "public, max-age=31536000, immutable";
+        "~*image/" "public, max-age=31536000, immutable";
+        "~*font/" "public, max-age=31536000, immutable";
+      }
+
+      map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+      }
+
+      server {
+        listen 80;
+        server_name _;
+
+        root /usr/share/nginx/html{{ .Values.nginx.basePath }};
+        index index.html;
+
+        # Security headers (managed via values)
+        add_header Content-Security-Policy "{{ .Values.nginx.csp }}" always;
+        {{- range $k, $v := .Values.nginx.headers }}
+        add_header {{ $k }} "{{ $v }}" always;
+        {{- end }}
+
+        # Serve runtime app config if enabled
+        {{- if .Values.runtimeConfig.enabled }}
+        location = /app-config.js {
+          default_type application/javascript;
+          alias /etc/nginx/app-config/app-config.js;
+          add_header Cache-Control "no-cache";
+        }
+        {{- end }}
+
+        # Static hashed assets
+        location {{ .Values.nginx.basePath }}assets/ {
+          expires 1y;
+          add_header Cache-Control "public, max-age=31536000, immutable";
+          try_files $uri =404;
+        }
+
+        # SPA fallback
+        location {{ .Values.nginx.basePath }} {
+          try_files $uri $uri/ {{ .Values.nginx.basePath }}index.html;
+          add_header Cache-Control $cache_control;
+        }
+
+        {{- range .Values.nginx.extraServerDirectives }}
+        {{ . }}
+        {{- end }}
+      }
+    }

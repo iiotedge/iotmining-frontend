@@ -1,0 +1,11 @@
+{{- if .Values.runtimeConfig.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frontend.fullname" . }}-app-config
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+data:
+  app-config.js: |
+    window.__APP_CONFIG__ = {{ toJson .Values.runtimeConfig.data }};
+{{- end }}

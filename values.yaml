@@ -1,0 +1,91 @@
+# --- Core ---
+replicaCount: 2
+
+image:
+  repository: ghcr.io/iotmining/iotmining-frontend
+  tag: "latest"
+  pullPolicy: IfNotPresent
+imagePullSecrets: []  # e.g., [{ name: ghcr-pull }]
+
+nameOverride: ""
+fullnameOverride: ""
+
+# --- Service ---
+service:
+  type: ClusterIP
+  port: 80
+
+# --- Ingress ---
+ingress:
+  enabled: true
+  className: "nginx"    # set to your ingress class
+  annotations:          # add cert-manager, gzip, etc.
+    cert-manager.io/cluster-issuer: "letsencrypt"
+  hosts:
+    - host: app.iotmining.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: iotmining-frontend-tls
+      hosts:
+        - app.iotmining.com
+
+# --- Nginx / SPA settings (all dynamic) ---
+nginx:
+  basePath: "/"                   # if you serve under subpath, set e.g. "/portal/"
+  htmlNoCache: true               # no-cache HTML for SPA
+  gzip: true
+  extraHttpDirectives: []         # list of raw nginx directives (advanced)
+  extraServerDirectives: []       # raw server{} directives (advanced)
+  csp: "default-src 'self'; img-src 'self' data: blob:; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https:;"
+  headers:
+    X-Frame-Options: "SAMEORIGIN"
+    X-Content-Type-Options: "nosniff"
+    Referrer-Policy: "strict-origin-when-cross-origin"
+    Permissions-Policy: "geolocation=(), microphone=(), camera=()"
+
+# Serve a runtime config as /app-config.js (so you don't need rebuilds)
+runtimeConfig:
+  enabled: true
+  # Will be exposed via window.__APP_CONFIG__ at /app-config.js
+  data:
+    API_BASE_URL: "https://api.iotmining.com"
+    SENTRY_DSN: ""
+    ENV: "production"
+
+# --- Resources / HPA / PDB ---
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 60
+  # targetMemoryUtilizationPercentage: 70
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# --- RBAC / SA ---
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# --- Scheduling ---
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# --- NetworkPolicy ---
+networkPolicy:
+  enabled: true
+  allowIngressFromNamespaces: []  # e.g., ["ingress-nginx"]

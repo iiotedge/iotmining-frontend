@@ -1,0 +1,9 @@
+IoTMining Frontend deployed!
+
+URL:
+{{- range .Values.ingress.hosts }}
+  - https://{{ .host }}{{ (index .paths 0).path | default "/" }}
+{{- end }}
+
+To check:
+  kubectl get deploy,svc,ing -l app.kubernetes.io/instance={{ .Release.Name }}

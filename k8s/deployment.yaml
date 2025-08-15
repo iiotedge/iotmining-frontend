@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iotmining-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: iotmining-frontend }
+  template:
+    metadata:
+      labels: { app: iotmining-frontend }
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/your-org/iotmining-frontend:prod
+          ports:
+            - containerPort: 80
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits:   { cpu: "500m", memory: "256Mi" }
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 10
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iotmining-frontend
+spec:
+  selector:
+    app: iotmining-frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

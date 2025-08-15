@@ -1,0 +1,294 @@
+:root {
+  --primary-color: #304269;
+  --primary-color-hover: #3d5280;
+  --primary-color-active: #263452;
+  --primary-color-light: #eef2ff;
+  --success-color: #52c41a;
+  --warning-color: #faad14;
+  --error-color: #f5222d;
+  --info-color: #1890ff;
+  --text-color: #222;
+  --text-color-secondary: #808080;
+  --border-color: #e0e0e0;
+  --border-color-split: #ececec;
+  --background-color: #f7f8fa;
+  --component-background: #fff;
+  --heading-color: #222;
+  --disabled-color: #bbb;
+  --box-shadow: 0 1px 2px rgba(0, 21, 41, 0.06);
+  --border-radius-base: 2px;
+}
+
+/* Body */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Dashboard Layout */
+.ant-layout {
+  background: var(--background-color);
+}
+.ant-layout-header {
+  background: var(--component-background);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  min-height: 44px !important;
+  height: 44px !important;
+  padding: 0 8px !important;
+}
+.ant-layout-content {
+  background: var(--background-color);
+  padding: 8px 0 !important;
+}
+
+/* Header Input */
+.ant-input {
+  font-size: 15px !important;
+  height: 28px !important;
+  border-radius: 2px !important;
+  padding: 0 6px !important;
+}
+
+/* Header Buttons */
+.ant-btn {
+  min-width: 24px !important;
+  height: 28px !important;
+  font-size: 13px !important;
+  border-radius: 2px !important;
+  padding: 0 8px !important;
+  margin-right: 2px;
+}
+
+/* Compact Space */
+.ant-space {
+  gap: 4px !important;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  min-height: 100%;
+  background: #fff;
+  padding: 12px;
+  border-radius: 2px;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* --- FLEXIBLE, RESIZABLE WIDGET LAYOUT FIXES BELOW --- */
+
+/* Each react-grid-item (cell) should be full-height, flexbox container */
+.react-grid-item {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+}
+
+/* Widget Container fills grid cell, uses flex column, always resizes correctly */
+.widget-container {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #fcfcfc;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+/* Widget drag handle (header) is always fixed height */
+.widget-drag-handle {
+  flex: 0 0 32px;
+  min-height: 20px;
+  max-height: 38px;
+  cursor: move;
+  padding: 4px 8px;
+  font-weight: 500;
+  font-size: 13px;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ececec;
+  color: #2d2d2d;
+  user-select: none;
+}
+
+/* Widget content body fills the rest of the widget */
+.widget-body {
+  flex: 1 1 0%;
+  min-height: 0 !important;
+  height: 100%;
+  overflow: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Any direct child (chart, table, etc) also fills height */
+.widget-body > * {
+  flex: 1 1 0%;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Ant Design Card/Table/Chart compatibility */
+.ant-card,
+.ant-table-wrapper,
+.chart-container,
+.widget-chart {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.ant-card-body {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 8px 8px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Widget Controls */
+.widget-controls,
+.widget-container > .widget-controls {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 10;
+  display: flex;
+  gap: 2px;
+  background: rgba(245,245,245,0.96);
+  border-radius: 2px;
+  padding: 1px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.04);
+}
+.widget-container:hover .widget-controls {
+  opacity: 1;
+}
+.widget-controls .ant-btn {
+  min-width: 20px !important;
+  height: 22px !important;
+  font-size: 13px !important;
+  padding: 0 3px !important;
+}
+
+/* ResponsiveGridLayout grid gutter minimal */
+.react-grid-layout {
+  margin: 0;
+}
+.react-grid-item {
+  margin: 0;
+  transition: all 150ms cubic-bezier(.23,1.12,.59,1);
+}
+
+/* Resizer handle */
+.react-grid-item > .react-resizable-handle {
+  width: 14px;
+  height: 14px;
+  right: 2px;
+  bottom: 2px;
+  z-index: 20;
+}
+
+/* Empty State */
+.dashboard-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  color: #aaa;
+  font-size: 13px;
+}
+.dashboard-empty-state-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+.dashboard-empty-state-title {
+  margin: 0;
+  font-size: 15px;
+}
+.dashboard-empty-state-btn {
+  margin-top: 8px;
+  height: 24px !important;
+  font-size: 12px !important;
+}
+
+/* Modals and Form */
+.ant-modal-content,
+.ant-modal-header {
+  border-radius: 2px !important;
+  padding: 10px !important;
+}
+.ant-modal-title {
+  font-size: 15px !important;
+}
+.ant-form-item {
+  margin-bottom: 8px !important;
+}
+.ant-select-selector {
+  border-radius: 2px !important;
+  min-height: 28px !important;
+  padding: 0 8px !important;
+  font-size: 13px !important;
+}
+
+/* Small Devices: further squeeze */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 6px;
+  }
+  .ant-layout-header,
+  .ant-layout-content {
+    padding: 0 2px !important;
+  }
+  .widget-drag-handle {
+    flex: 0 0 24px;
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+  .widget-body {
+    padding: 2px;
+  }
+}
+
+/* --- DARK THEME OVERRIDES --- */
+body.dark-theme, .dark-theme {
+  --text-color: #e0e6ef;
+  --text-color-secondary: #7b8b99;
+  --border-color: #333c47;
+  --border-color-split: #212936;
+  --background-color: #151a1e;
+  --component-background: #1c232a;
+  --heading-color: #e0e6ef;
+  --box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+body.dark-theme,
+.dark-theme .ant-layout,
+.dark-theme .ant-layout-content {
+  background: var(--background-color) !important;
+}
+.dark-theme .ant-layout-header {
+  background: var(--component-background) !important;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+}
+.dark-theme .dashboard-container,
+.dark-theme .widget-container {
+  background: var(--component-background) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+.dark-theme .widget-drag-handle {
+  background: #212936 !important;
+  color: #e0e6ef !important;
+  border-bottom: 1px solid #252e3a !important;
+}
+.dark-theme .widget-controls,
+.dark-theme .widget-container > .widget-controls {
+  background: #23272e !important;
+}

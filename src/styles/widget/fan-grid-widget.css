@@ -1,0 +1,283 @@
+.fan-grid-widget {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* HEADER & LAYOUT */
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.widget-title {
+  font-weight: bold;
+  color: #1976d2;
+}
+
+.header-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.system-overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.overview-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.stat-item .MuiTypography-caption {
+  color: #666;
+  font-weight: 500;
+}
+
+.system-controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* GRID & CARD */
+.fan-grid {
+  margin-top: 16px;
+}
+
+.fan-card {
+  height: 290px;
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: visible;
+  background: #f7fafc;
+  border-radius: 13px;
+}
+
+.fan-card:hover {
+  transform: translateY(-2px) scale(1.012);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.16);
+}
+
+.fan-card.fan-running {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76,175,80,0.28);
+}
+
+.fan-card.fan-stopped {
+  border-color: #757575;
+}
+
+.fan-card.fan-failed {
+  border-color: #f44336;
+  box-shadow: 0 0 12px rgba(244,67,54,0.34);
+  animation: pulse-red 1.6s infinite;
+}
+
+@keyframes pulse-red {
+  0%,100% { box-shadow: 0 0 12px rgba(244,67,54,0.25);}
+  50%     { box-shadow: 0 0 22px rgba(244,67,54,0.60);}
+}
+
+.fan-card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px !important;
+}
+
+/* FAN VISUAL */
+.fan-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 84px;
+  margin-bottom: 10px;
+}
+
+.fan-container {
+  width: 68px;
+  height: 68px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 86px;
+  max-height: 86px;
+  position: relative;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #e8e8e8 60%, #fafcff 100%);
+  box-shadow: 0 1px 4px #e0e0e099, 0 4px 24px #d0d0d0aa inset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fan-container.running {
+  background: linear-gradient(135deg, #e4fce4 50%, #f0f8f0 100%);
+}
+.fan-container.failed {
+  background: linear-gradient(135deg, #ffeaea 60%, #fff5f5 100%);
+}
+
+.fan-blades {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 94%;
+  height: 94%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fan-blades.spinning {
+  animation: fan-spin 1s linear infinite;
+}
+
+@keyframes fan-spin {
+  100% { transform: translate(-50%, -50%) rotate(360deg);}
+}
+
+/* 6 blades, fully centered, responsive, metallic look */
+.fan-blades .blade {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 62%;
+  height: 18%;
+  min-width: 16px;
+  min-height: 4px;
+  max-width: 44px;
+  max-height: 13px;
+  background: linear-gradient(90deg, #adb2b8 0%, #e5ecf1 35%, #768390 100%);
+  border-radius: 60% 50% 90% 80% / 90% 80% 90% 80%;
+  opacity: 0.94;
+  box-shadow: 0 1px 5px 0 rgba(120,120,120,0.10);
+  transform-origin: 13% 50%;
+}
+.fan-blades .blade:nth-child(1) { transform: rotate(0deg)   translate(-50%, -50%);}
+.fan-blades .blade:nth-child(2) { transform: rotate(60deg)  translate(-50%, -50%);}
+.fan-blades .blade:nth-child(3) { transform: rotate(120deg) translate(-50%, -50%);}
+.fan-blades .blade:nth-child(4) { transform: rotate(180deg) translate(-50%, -50%);}
+.fan-blades .blade:nth-child(5) { transform: rotate(240deg) translate(-50%, -50%);}
+.fan-blades .blade:nth-child(6) { transform: rotate(300deg) translate(-50%, -50%);}
+
+/* Fan Center - sharp, metallic, hub */
+.fan-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22%;
+  height: 22%;
+  background: radial-gradient(circle at 70% 35%, #c0c2c6 60%, #535353 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 2px 8px 1px #38383835, 0 0 0 3px #f0f0f066;
+  border: 2px solid #c4c4c4;
+}
+
+.status-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: white;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+}
+
+/* FAN INFO & PARAMS */
+.fan-info {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.fan-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+.fan-parameters {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  padding: 7px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 6px;
+}
+
+.parameter {
+  text-align: center;
+}
+.parameter .MuiTypography-caption {
+  color: #666;
+  font-size: 10px;
+}
+.parameter .MuiTypography-body2 {
+  margin-top: 2px;
+}
+
+.fan-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.fan-alarms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  margin-top: auto;
+}
+.fan-alarms .MuiChip-root {
+  font-size: 9px;
+  height: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .system-overview {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .overview-stats { justify-content: center;}
+  .system-controls { justify-content: center;}
+  .fan-card { height: 245px;}
+  .fan-visual { height: 62px; }
+  .fan-container { width: 40px; height: 40px; }
+  .fan-blades { width: 90%; height: 90%; }
+}
+@media (max-width: 600px) {
+  .fan-card { height: 210px;}
+  .fan-visual { height: 46px;}
+  .fan-container { width: 30px; height: 30px;}
+  .fan-blades { width: 74%; height: 74%;}
+  .blade {
+    min-width: 8px; min-height: 3px; max-width: 22px; max-height: 7px;
+  }
+}

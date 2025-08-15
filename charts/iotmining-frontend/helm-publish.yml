@@ -1,0 +1,45 @@
+name: Helm Chart Publish (GHCR OCI)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'charts/iotmining-frontend/**'
+
+env:
+  REGISTRY: ghcr.io
+  OCI_NAMESPACE: ${{ github.repository_owner }}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  helm-oci-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.4
+
+      - name: Log in to GHCR (OCI)
+        run: echo $CR_PAT | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
+        env:
+          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Package chart
+        working-directory: charts/iotmining-frontend
+        run: |
+          helm lint .
+          helm package . --destination ../../_dist
+
+      - name: Push chart (OCI)
+        run: |
+          set -e
+          CHART_FILE=$(ls _dist/iotmining-frontend-*.tgz)
+          echo "Pushing $CHART_FILE"
+          helm push "$CHART_FILE" oci://ghcr.io/${{ env.OCI_NAMESPACE }}

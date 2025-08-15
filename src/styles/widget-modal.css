@@ -1,0 +1,149 @@
+/* Widget Modal & Config Styling */
+
+.widget-config-modal .ant-modal-content {
+  background: var(--component-background);
+  color: var(--text-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.widget-config-modal .ant-modal-header {
+  background: var(--component-background);
+  color: var(--heading-color);
+  border-bottom: 1px solid var(--border-color-split);
+  padding: 16px 24px;
+  border-radius: 8px 8px 0 0;
+}
+
+.widget-config-modal .ant-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.widget-config-modal .ant-modal-close-x {
+  color: var(--text-color-secondary);
+}
+
+.widget-config-modal .ant-modal-body {
+  padding: 24px;
+}
+
+.widget-config-modal .ant-tabs-nav {
+  margin-bottom: 18px;
+}
+
+.widget-config-modal .ant-tabs-tab {
+  font-weight: 500;
+}
+
+.widget-config-modal .ant-form-item-label > label {
+  color: var(--heading-color);
+}
+
+.widget-config-modal .ant-input,
+.widget-config-modal .ant-select,
+.widget-config-modal .ant-input-number {
+  background: var(--component-background);
+  color: var(--text-color);
+  border-radius: 4px;
+}
+
+.widget-config-modal .ant-select-selector {
+  background: var(--component-background) !important;
+  color: var(--text-color) !important;
+}
+
+.widget-config-modal .ant-divider {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.widget-config-modal .ant-alert-message {
+  color: var(--warning-color);
+}
+
+.widget-config-modal .ant-alert-info {
+  color: var(--primary-color);
+}
+
+.widget-config-modal .ant-btn-primary {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.widget-config-modal .ant-btn-primary:hover {
+  background: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+}
+
+.widget-config-modal .ant-btn {
+  border-radius: 4px;
+}
+
+.widget-config-modal .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: var(--primary-color-light) !important;
+  color: var(--primary-color) !important;
+}
+
+/* Telemetry MQTT log box */
+.widget-config-modal .mqtt-log-box {
+  max-height: 80px;
+  overflow: auto;
+  background: #fafafa;
+  font-size: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #eee;
+  padding: 6px;
+}
+
+/* For theme support */
+.dark-theme .widget-config-modal .ant-modal-content,
+.dark-theme .widget-config-modal .ant-modal-header {
+  background: #181d23 !important;
+  color: #eee !important;
+  border-color: #222 !important;
+}
+
+.dark-theme .widget-config-modal .ant-modal-title,
+.dark-theme .widget-config-modal .ant-form-item-label > label {
+  color: #d7e0ee !important;
+}
+
+.dark-theme .widget-config-modal .ant-input,
+.dark-theme .widget-config-modal .ant-select,
+.dark-theme .widget-config-modal .ant-input-number {
+  background: #23232a !important;
+  color: #eee !important;
+}
+
+.dark-theme .widget-config-modal .ant-select-selector {
+  background: #23232a !important;
+  color: #eee !important;
+}
+
+.dark-theme .widget-config-modal .ant-btn-primary {
+  background: #4080ff !important;
+  border-color: #4080ff !important;
+}
+
+.dark-theme .widget-config-modal .ant-btn-primary:hover {
+  background: #5a94ff !important;
+  border-color: #5a94ff !important;
+}
+
+.dark-theme .widget-config-modal .mqtt-log-box {
+  background: #23232a !important;
+  color: #eee !important;
+  border-color: #222 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .widget-config-modal .ant-modal-body {
+    padding: 12px;
+  }
+  .widget-config-modal .ant-modal-header {
+    padding: 10px 12px;
+  }
+}

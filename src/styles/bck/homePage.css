@@ -1,0 +1,32 @@
+.home-page {
+  padding: 24px;
+  background: #f0f2f5;
+}
+
+.loading-container {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.widget-container {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-header {
+  padding: 8px 12px;
+  font-weight: 600;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.widget-body {
+  padding: 8px;
+  flex-grow: 1;
+}

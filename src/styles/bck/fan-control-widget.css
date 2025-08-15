@@ -1,0 +1,166 @@
+.fan-control-widget {
+  /* min-height: 400px; */
+}
+
+.fan-card {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.fan-card.running {
+  /* box-shadow: 0 0 10px rgba(76, 175, 80, 0.3); */
+}
+
+.fan-card.failed {
+  /* box-shadow: 0 0 10px rgba(244, 67, 54, 0.3); */
+}
+
+.fan-blade {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.fan-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: #333;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.blade {
+  position: absolute;
+  background: linear-gradient(45deg, #666, #999);
+  border-radius: 50% 10% 50% 10%;
+  width: 35px;
+  height: 8px;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+}
+
+.blade1 {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.blade2 {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.blade3 {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.blade4 {
+  transform: translate(-50%, -50%) rotate(270deg);
+}
+
+.fan-blade.spinning {
+  animation: spin linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status indicators */
+.fan-card .MuiCardContent-root {
+  position: relative;
+}
+
+.fan-card.running::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4caf50, #8bc34a, #4caf50);
+  background-size: 200% 100%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.fan-card.failed::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f44336, #ff5722, #f44336);
+  background-size: 200% 100%;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .fan-blade {
+    width: 60px;
+    height: 60px;
+  }
+
+  .blade {
+    width: 25px;
+    height: 6px;
+  }
+
+  .fan-center {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Temperature warning colors */
+.temperature-normal {
+  color: #4caf50;
+}
+
+.temperature-warning {
+  color: #ff9800;
+}
+
+.temperature-critical {
+  color: #f44336;
+}
+
+/* Power consumption indicator */
+.power-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.power-low {
+  background-color: #4caf50;
+}
+
+.power-medium {
+  background-color: #ff9800;
+}
+
+.power-high {
+  background-color: #f44336;
+}

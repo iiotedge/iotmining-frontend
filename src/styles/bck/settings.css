@@ -1,0 +1,340 @@
+/* Settings Page Styles */
+.settings-page {
+    padding: 0;
+  }
+  
+  .settings-breadcrumb {
+    margin-bottom: 16px;
+  }
+  
+  .settings-title {
+    margin-bottom: 24px;
+  }
+  
+  .settings-card {
+    margin-bottom: 24px;
+  }
+  
+  .settings-tabs .ant-tabs-nav {
+    min-width: 200px;
+  }
+  
+  .settings-section-card {
+    margin-bottom: 16px;
+  }
+  
+  .settings-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* Theme Settings */
+  .theme-mode-selector {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .theme-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .light-preview {
+    background-color: #ffffff;
+  }
+  
+  .dark-preview {
+    background-color: #141414;
+  }
+  
+  .auto-detect-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .color-picker-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .color-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  
+  .color-preset {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: transform 0.2s;
+  }
+  
+  .color-preset:hover {
+    transform: scale(1.1);
+  }
+  
+  .color-preset.selected {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1890ff;
+  }
+  
+  .preview-controls {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .theme-preview-container {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-container.desktop {
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+  }
+  
+  .theme-preview-container.tablet {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+  }
+  
+  .theme-preview-container.mobile {
+    width: 100%;
+    max-width: 320px;
+    height: 480px;
+  }
+  
+  .theme-preview-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f2f5;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-frame.dark {
+    background-color: #000000;
+  }
+  
+  .preview-header {
+    height: 64px;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-frame.dark .preview-header {
+    background-color: #141414;
+    border-color: #303030;
+  }
+  
+  .preview-logo {
+    width: 120px;
+    height: 32px;
+    background-color: var(--primary-color, #304269);
+    border-radius: 4px;
+  }
+  
+  .preview-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .preview-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .preview-content {
+    flex: 1;
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    overflow: hidden;
+  }
+  
+  .preview-sidebar {
+    width: 200px;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-frame.dark .preview-sidebar {
+    background-color: #141414;
+  }
+  
+  .preview-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+  }
+  
+  .preview-card {
+    height: 100px;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-frame.dark .preview-card {
+    background-color: #1f1f1f;
+  }
+  
+  .preview-widgets {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    overflow: hidden;
+  }
+  
+  .preview-widget {
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .theme-preview-frame.dark .preview-widget {
+    background-color: #1f1f1f;
+  }
+  
+  /* Dashboard Settings */
+  .public-link-section {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .shareable-link {
+    margin: 8px 0 16px;
+  }
+  
+  .toggle-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  /* User Settings */
+  .user-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .user-avatar {
+    border: 2px solid #f0f0f0;
+  }
+  
+  .user-info-summary {
+    text-align: center;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .settings-tabs .ant-tabs-nav {
+      min-width: auto;
+    }
+    
+    .theme-preview-container.desktop,
+    .theme-preview-container.tablet {
+      max-width: 100%;
+      height: 300px;
+    }
+    
+    .preview-content {
+      flex-direction: column;
+    }
+    
+    .preview-sidebar {
+      width: 100%;
+      height: 60px;
+    }
+    
+    .preview-widgets {
+      grid-template-columns: 1fr;
+    }
+    
+    .toggle-options {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Dark Theme Support */
+  .dark-theme .settings-card,
+  .dark-theme .settings-section-card {
+    background-color: #1f1f1f;
+    border-color: #303030;
+  }
+  
+  .dark-theme .settings-title,
+  .dark-theme .ant-card-head-title,
+  .dark-theme .ant-form-item-label > label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark-theme .ant-tabs-tab {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  
+  .dark-theme .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #4080ff;
+  }
+  
+  .dark-theme .ant-tabs-ink-bar {
+    background-color: #4080ff;
+  }
+  
+  .dark-theme .theme-preview {
+    border-color: #434343;
+  }
+  
+  .dark-theme .theme-preview-container {
+    border-color: #434343;
+  }
+  
+  .dark-theme .public-link-section {
+    background-color: #141414;
+  }
+  
+  .dark-theme .user-avatar {
+    border-color: #303030;
+  }
+  

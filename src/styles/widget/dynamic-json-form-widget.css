@@ -1,0 +1,236 @@
+.dynamic-json-form-widget {
+  min-height: 300px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease;
+}
+
+.dynamic-json-form-widget:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.dynamic-json-form-widget .MuiCardContent-root {
+  padding: 24px !important;
+}
+
+.dynamic-json-form-widget .MuiTypography-h5 {
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+  margin-bottom: 8px !important;
+}
+
+.dynamic-json-form-widget .MuiTextField-root {
+  margin-bottom: 16px !important;
+}
+
+.dynamic-json-form-widget .MuiTextField-root .MuiOutlinedInput-root {
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.dynamic-json-form-widget .MuiTextField-root .MuiOutlinedInput-root:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-json-form-widget .MuiTextField-root .MuiOutlinedInput-root.Mui-focused {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+}
+
+.dynamic-json-form-widget .MuiButton-contained {
+  background: linear-gradient(45deg, #1976d2 30%, #42a5f5 90%) !important;
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.dynamic-json-form-widget .MuiButton-contained:hover {
+  background: linear-gradient(45deg, #1565c0 30%, #1e88e5 90%) !important;
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.dynamic-json-form-widget .MuiButton-outlined {
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border: 2px solid #1976d2 !important;
+  color: #1976d2 !important;
+  transition: all 0.3s ease !important;
+}
+
+.dynamic-json-form-widget .MuiButton-outlined:hover {
+  background: rgba(25, 118, 210, 0.04) !important;
+  border-color: #1565c0 !important;
+  transform: translateY(-1px);
+}
+
+.dynamic-json-form-widget .MuiAccordion-root {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  margin-bottom: 16px !important;
+}
+
+.dynamic-json-form-widget .MuiAccordion-root:before {
+  display: none;
+}
+
+.dynamic-json-form-widget .MuiAccordionSummary-root {
+  background: rgba(25, 118, 210, 0.04);
+  border-radius: 8px 8px 0 0 !important;
+  min-height: 56px !important;
+}
+
+.dynamic-json-form-widget .MuiAccordionSummary-root.Mui-expanded {
+  min-height: 56px !important;
+}
+
+.dynamic-json-form-widget .MuiAccordionDetails-root {
+  padding: 20px !important;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.dynamic-json-form-widget .MuiFormControlLabel-root {
+  margin-bottom: 16px !important;
+}
+
+.dynamic-json-form-widget .MuiSwitch-root .MuiSwitch-switchBase.Mui-checked {
+  color: #1976d2 !important;
+}
+
+.dynamic-json-form-widget .MuiSwitch-root .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: #1976d2 !important;
+}
+
+.dynamic-json-form-widget .MuiSelect-root {
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.dynamic-json-form-widget .MuiChip-root {
+  margin: 2px !important;
+  border-radius: 16px !important;
+}
+
+.dynamic-json-form-widget pre {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  border: 1px solid #e0e0e0 !important;
+}
+
+.dynamic-json-form-widget .field-builder-card {
+  border: 2px dashed #e0e0e0 !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.3s ease !important;
+}
+
+.dynamic-json-form-widget .field-builder-card:hover {
+  border-color: #1976d2 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dynamic-json-form-widget .MuiIconButton-root {
+  transition: all 0.3s ease !important;
+}
+
+.dynamic-json-form-widget .MuiIconButton-root:hover {
+  transform: scale(1.1);
+}
+
+.dynamic-json-form-widget .MuiAlert-root {
+  border-radius: 8px !important;
+}
+
+/* Dark mode support */
+.dark .dynamic-json-form-widget {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+.dark .dynamic-json-form-widget .MuiTypography-h5 {
+  color: #ecf0f1 !important;
+}
+
+.dark .dynamic-json-form-widget .MuiTextField-root .MuiOutlinedInput-root {
+  background: rgba(52, 73, 94, 0.8);
+  color: #ecf0f1;
+}
+
+.dark .dynamic-json-form-widget .MuiTextField-root .MuiOutlinedInput-root:hover {
+  background: rgba(52, 73, 94, 0.9);
+}
+
+.dark .dynamic-json-form-widget .MuiAccordionSummary-root {
+  background: rgba(52, 73, 94, 0.6);
+}
+
+.dark .dynamic-json-form-widget .MuiAccordionDetails-root {
+  background: rgba(44, 62, 80, 0.8);
+}
+
+.dark .dynamic-json-form-widget pre {
+  background: rgba(44, 62, 80, 0.9) !important;
+  color: #ecf0f1 !important;
+  border-color: #34495e !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dynamic-json-form-widget .MuiCardContent-root {
+    padding: 16px !important;
+  }
+
+  .dynamic-json-form-widget .grid-2-cols {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dynamic-json-form-widget .MuiButton-root {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+/* Animation for field addition */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dynamic-json-form-widget .field-enter {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Loading state */
+.dynamic-json-form-widget .loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  z-index: 10;
+}
+
+.dark .dynamic-json-form-widget .loading-overlay {
+  background: rgba(44, 62, 80, 0.8);
+}

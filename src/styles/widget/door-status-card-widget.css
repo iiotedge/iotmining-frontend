@@ -1,0 +1,239 @@
+.door-status-card-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--widget-background-color, #fff);
+  border-radius: var(--widget-border-radius, 7px);
+  box-shadow: var(--widget-drop-shadow, 0 1px 4px rgba(0, 0, 0, 0.09));
+  color: var(--widget-text-color, #333);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  min-width: 210px;
+  max-width: 350px;
+}
+
+.door-status-card-widget.dark-mode {
+  background-color: var(--widget-background-color, #23232a);
+  color: var(--widget-text-color, #e2e2e2);
+  box-shadow: var(--widget-drop-shadow, 0 2px 8px rgba(0,0,0,0.45));
+}
+
+.door-status-card-widget .ant-card-head {
+  border-bottom: none;
+  padding-bottom: 6px;
+  padding-top: 5px;
+  font-weight: 600;
+  font-size: 1.07rem;
+  letter-spacing: 0.02em;
+}
+
+.door-status-card-widget.dark-mode .ant-card-head {
+  color: #e2e2e2;
+}
+
+.door-status-card-widget .ant-card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 8px 5px 8px;
+  gap: 8px;
+}
+
+.door-status-loading {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+}
+
+.door-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.door-animation-container {
+  width: 84px;
+  height: 100px;
+  perspective: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.door-frame {
+  width: 100%;
+  height: 100%;
+  border: 4px solid #7a604f;
+  border-radius: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #927c6c;
+}
+
+.door-status-card-widget.dark-mode .door-frame {
+  border-color: #463a30;
+  background-color: #54483e;
+}
+
+.door-panel {
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  background-color: #ab998e;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.6,0.15,0.2,1);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.13);
+  border-radius: 2px;
+}
+
+.door-status-card-widget.dark-mode .door-panel {
+  background-color: #746357;
+}
+
+.door-panel.open {
+  transform: rotateY(-98deg);
+}
+
+.door-panel.closed {
+  transform: rotateY(0deg);
+}
+
+.door-handle {
+  width: 7px;
+  height: 17px;
+  background-color: #bdbdbd;
+  border-radius: 2px;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 2px rgba(0,0,0,0.09);
+}
+
+.door-status-card-widget.dark-mode .door-handle {
+  background-color: #aaa;
+}
+
+.status-display {
+  margin-bottom: 4px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.status-tag {
+  font-size: 0.97em;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: none;
+  letter-spacing: 0.02em;
+  min-height: 22px;
+  min-width: 72px;
+}
+
+.ant-descriptions {
+  width: 100%;
+  margin-top: 0 !important;
+}
+
+.ant-descriptions-view {
+  margin-top: 2px !important;
+}
+
+.ant-descriptions-row {
+  min-height: 10px !important;
+  line-height: 1.07;
+  padding: 0 !important;
+}
+
+.ant-descriptions-item-label,
+.ant-descriptions-item-content {
+  padding: 2px 3px !important;
+  font-size: 12px !important;
+  line-height: 1.1;
+}
+
+.ant-descriptions-item-label {
+  font-weight: 600;
+  color: var(--widget-text-color, #666);
+}
+
+.door-status-card-widget.dark-mode .ant-descriptions-item-label {
+  color: var(--widget-text-color, #b8b8b8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .door-status-card-widget .ant-card-body {
+    padding: 5px;
+  }
+  .door-animation-container {
+    width: 62px;
+    height: 74px;
+  }
+  .door-frame {
+    border-width: 3px;
+  }
+  .door-panel {
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+  }
+  .door-handle {
+    width: 5px;
+    height: 13px;
+    right: 6px;
+  }
+  .status-tag {
+    font-size: 0.93em;
+    padding: 1px 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .door-status-card-widget {
+    min-width: 140px;
+    max-width: 95vw;
+    font-size: 12.2px;
+  }
+  .door-content {
+    max-width: 140px;
+  }
+  .door-animation-container {
+    width: 42px;
+    height: 48px;
+  }
+  .door-frame {
+    border-width: 2px;
+  }
+  .door-panel {
+    width: calc(100% - 3px);
+    height: calc(100% - 3px);
+  }
+  .door-handle {
+    width: 4px;
+    height: 10px;
+    right: 3px;
+  }
+  .status-tag {
+    font-size: 0.85em;
+    padding: 1px 5px;
+  }
+}

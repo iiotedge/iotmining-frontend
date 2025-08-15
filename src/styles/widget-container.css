@@ -1,0 +1,31 @@
+/* --- IIOT Dashboard Widget Container Styles --- */
+
+.widget-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--component-background);
+  transition: background-color 0.3s;
+  display: flex !important;
+  flex-direction: column;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* Optional: drag handle hover for widget only */
+.widget-drag-handle:hover {
+  background-color: #e6f7ff;
+}
+
+.react-grid-item {
+  display: flex !important;
+  flex-direction: column;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.widget-container > div:last-child {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  height: 100% !important;
+}

@@ -1,0 +1,142 @@
+.water-logging-widget-compact {
+  width: 100%;
+  min-width: 220px;
+  max-width: 420px;
+  height: 100%;
+  background: var(--colorBgContainer, #f7f9fb);
+  color: var(--colorText, #23272f);
+  border-radius: 14px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  box-shadow: var(--boxShadow, 0 2px 8px 0 rgba(24,144,255,0.08));
+  border: 1px solid var(--colorBorder, #e0e0e0);
+}
+
+.water-logging-widget-compact.dark-mode {
+  background: var(--colorBgContainer, #101010);
+  color: var(--colorText, #e3e3e3);
+  border: 1px solid var(--colorBorder, #181818);
+}
+
+.widget-title {
+  font-size: 1.17em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-bottom: 0;
+  color: var(--colorText, #23272f);
+}
+
+.water-icon-outer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px 0 22px 0;
+  position: relative;
+  height: 60px;
+}
+
+.icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+}
+
+.water-drop-icon {
+  font-size: 48px !important;
+  color: var(--accent, #1890ff);
+  z-index: 2;
+  filter: drop-shadow(0 2px 8px rgba(24, 144, 255, 0.16));
+  transition: color 0.2s;
+}
+.water-logging-widget-compact.water-detected .water-drop-icon {
+  color: var(--err, #f5222d);
+  filter: drop-shadow(0 2px 16px #f5222d66);
+}
+
+.water-ripple {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: var(--rippleColor, rgba(245, 34, 45, 0.17));
+  /* You can also set --rippleColor from JS based on tokens.err if you want! */
+  transform: translate(-50%, -50%);
+  opacity: 0.7;
+  z-index: 1;
+  animation: ripple-expand 1.3s cubic-bezier(0.4,1,0.4,1) infinite;
+  pointer-events: none;
+}
+@keyframes ripple-expand {
+  from { width: 0; height: 0; opacity: 0.45; }
+  to   { width: 70px; height: 70px; opacity: 0; }
+}
+
+.status-display {
+  text-align: center;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.metadata-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.03em;
+  color: var(--colorTextSecondary, #6a6f7a);
+  padding: 3px 0;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.water-logging-widget-compact.dark-mode .meta-row {
+  color: var(--colorTextSecondary, #bababa);
+}
+.meta-icon {
+  font-size: 18px !important;
+  margin-right: 2px;
+  opacity: 0.85;
+}
+.meta-label {
+  min-width: 85px;
+  font-weight: 600;
+  opacity: 0.86;
+  color: var(--colorText, inherit);
+}
+.meta-value {
+  flex: 1;
+  text-align: right;
+  font-weight: 500;
+  color: var(--colorText, inherit);
+  opacity: 0.93;
+  letter-spacing: 0.01em;
+}
+
+/* Responsive design */
+@media (max-width: 540px) {
+  .water-logging-widget-compact {
+    min-width: 140px;
+    max-width: 98vw;
+    padding: 0 !important;
+    border-radius: 10px;
+  }
+  .icon-wrapper { width: 38px; height: 38px; }
+  .water-drop-icon { font-size: 32px !important; }
+  .meta-label { min-width: 58px; font-size: 0.99em; }
+  .meta-row { gap: 5px; font-size: 0.98em; }
+  .status-display { margin-bottom: 12px; }
+  .water-ripple { animation: ripple-expand 0.85s cubic-bezier(0.4,1,0.4,1) infinite; }
+  .metadata-list { gap: 5px; }
+}

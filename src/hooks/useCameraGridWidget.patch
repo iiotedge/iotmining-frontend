@@ -1,0 +1,170 @@
+--- useCameraGridWidget.js
++++ useCameraGridWidget.updated.js
+@@ -1 +1,166 @@
+-// original placeholder
++"use client"
++
++import { useState, useEffect, useRef, useCallback, useMemo } from "react";
++import { initializeHLSStream, destroyHLSStream } from "@/utils/cameraStream";
++
++// Default configuration object for cameras and grid layout
++const defaultConfig = {
++  title: "Camera Grid",
++  cameras: [
++    {
++      id: "cam1",
++      title: "Front Door Camera",
++      streamUrl: "http://192.168.1.11:8086/onvif_cam_192_168_1_2/index.m3u8",
++      username: "",
++      password: "",
++      refreshInterval: 30,
++      motionDetection: true,
++      motionSensitivity: 50,
++      notifications: true,
++      recordingEnabled: false,
++      storageRetention: 7,
++      ptz: false,
++      isPlaying: true,
++      isConnected: false,
++      isLoading: true,
++      alerts: [],
++      motionDetected: false,
++    },
++    {
++      id: "cam2",
++      title: "Parking Lot Camera",
++      streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
++      username: "",
++      password: "",
++      refreshInterval: 30,
++      motionDetection: true,
++      motionSensitivity: 70,
++      notifications: true,
++      recordingEnabled: false,
++      storageRetention: 7,
++      ptz: true,
++      isPlaying: true,
++      isConnected: false,
++      isLoading: true,
++      alerts: [],
++      motionDetected: false,
++    },
++    {
++      id: "cam3",
++      title: "Back Yard Camera",
++      streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
++      username: "",
++      password: "",
++      refreshInterval: 30,
++      motionDetection: false,
++      motionSensitivity: 60,
++      notifications: true,
++      recordingEnabled: true,
++      storageRetention: 14,
++      ptz: false,
++      isPlaying: true,
++      isConnected: false,
++      isLoading: true,
++      alerts: [],
++      motionDetected: false,
++    },
++    {
++      id: "cam4",
++      title: "Side Entrance Camera",
++      streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
++      username: "",
++      password: "",
++      refreshInterval: 30,
++      motionDetection: true,
++      motionSensitivity: 55,
++      notifications: true,
++      recordingEnabled: false,
++      storageRetention: 7,
++      ptz: false,
++      isPlaying: true,
++      isConnected: false,
++      isLoading: true,
++      alerts: [],
++      motionDetected: false,
++    },
++  ],
++  gridLayout: "free-form",
++  showCameraLabels: true,
++  autoRotate: false,
++  rotationInterval: 10,
++  resizable: true,
++  draggable: true,
++};
++
++export const gridLayouts = {
++  "free-form": { cols: 0, rows: 0, maxCameras: 16, description: "Free-form (Resizable & Draggable)" },
++  "1x1": { cols: 1, rows: 1, maxCameras: 1, description: "Single Camera" },
++  "2x2": { cols: 2, rows: 2, maxCameras: 4, description: "2x2 Grid" },
++  "3x3": { cols: 3, rows: 3, maxCameras: 9, description: "3x3 Grid" },
++  "4x4": { cols: 4, rows: 4, maxCameras: 16, description: "4x4 Grid" },
++  "2x3": { cols: 2, rows: 3, maxCameras: 6, description: "2x3 Grid" },
++  "3x2": { cols: 3, rows: 2, maxCameras: 6, description: "3x2 Grid" },
++};
++
++export const useCameraGridWidget = (config, onConfigChange) => {
++  const mergedConfig = useMemo(() => ({ ...defaultConfig, ...config }), [config]);
++
++  const [cameras, setCameras] = useState(mergedConfig.cameras);
++  const updateCameraState = useCallback((index, updates) => {
++    setCameras((prev) =>
++      prev.map((cam, i) => (i === index ? { ...cam, ...updates } : cam))
++    );
++  }, []);
++
++  const addCameraAlert = useCallback((index, message) => {
++    setCameras((prev) =>
++      prev.map((cam, i) =>
++        i === index
++          ? {
++              ...cam,
++              alerts: [...(cam.alerts || []), { id: Date.now(), message, timestamp: new Date() }].slice(0, 50),
++            }
++          : cam
++      )
++    );
++  }, []);
++
++  const initializeCameraStream = useCallback(
++    (index) => {
++      const camera = cameras[index];
++      if (camera?.streamUrl) {
++        updateCameraState(index, { isLoading: true });
++        setTimeout(() => {
++          initializeHLSStream(index, camera, updateCameraState, addCameraAlert);
++        }, 300);
++      }
++    },
++    [cameras, updateCameraState, addCameraAlert]
++  );
++
++  const destroyCameraStream = useCallback(
++    (index) => {
++      const camera = cameras[index];
++      destroyHLSStream(index, camera, updateCameraState);
++    },
++    [cameras, updateCameraState]
++  );
++
++  useEffect(() => {
++    cameras.forEach((camera, index) => {
++      if (camera.streamUrl && camera.isPlaying) initializeCameraStream(index);
++    });
++    return () => {
++      cameras.forEach((_, index) => destroyCameraStream(index));
++    };
++  }, [cameras, initializeCameraStream, destroyCameraStream]);
++
++  // Expose more state/actions as needed...
++  return {
++    cameras,
++    initializeCameraStream,
++    destroyCameraStream,
++    updateCameraState,
++    addCameraAlert,
++  };
++};

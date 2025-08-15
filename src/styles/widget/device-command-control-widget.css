@@ -1,0 +1,70 @@
+.device-command-control-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.device-command-control-widget .MuiCardContent-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px !important;
+}
+
+.device-command-control-widget .spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.device-command-control-widget .MuiAlert-root {
+  margin-bottom: 16px;
+}
+
+.device-command-control-widget .MuiFormControl-root {
+  margin-bottom: 8px;
+}
+
+.device-command-control-widget .MuiButton-root {
+  min-height: 48px;
+  font-weight: 600;
+}
+
+.device-command-control-widget pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.device-command-control-widget .MuiChip-root {
+  font-size: 0.75rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .device-command-control-widget .MuiCardContent-root {
+    padding: 12px !important;
+  }
+  
+  .device-command-control-widget .MuiButton-root {
+    min-height: 44px;
+  }
+}
+
+/* Dark mode support */
+.device-command-control-widget .MuiCard-root[data-theme="dark"] {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.device-command-control-widget .MuiCard-root[data-theme="dark"] pre {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}

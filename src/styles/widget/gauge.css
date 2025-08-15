@@ -1,0 +1,59 @@
+/* --- Gauge Widget Specific Responsive Styles --- */
+/* Base font sizes for larger screens */
+.gauge-main-value {
+  font-size: 2.2em; /* Default large size */
+}
+
+.gauge-unit {
+  font-size: 0.6em; /* Relative to main value */
+}
+
+.gauge-range-info {
+  font-size: 0.9em;
+}
+
+.gauge-percent-info {
+  font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+  /* Adjust font sizes for tablet screens */
+  .gauge-main-value {
+    font-size: 2em;
+  }
+  .gauge-range-info {
+    font-size: 0.8em;
+  }
+  .gauge-percent-info {
+    font-size: 0.75em;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjust font sizes for mobile phones */
+  .gauge-main-value {
+    font-size: 1.8em; /* Smaller for very small screens */
+  }
+  .gauge-unit {
+    font-size: 0.55em; /* Slightly smaller unit */
+  }
+  .gauge-range-info {
+    font-size: 0.75em;
+    line-height: 1.2; /* Tighter line height */
+  }
+  .gauge-percent-info {
+    font-size: 0.7em;
+    line-height: 1.2; /* Tighter line height */
+  }
+  .gauge-value-display {
+    top: 52%; /* Adjust vertical positioning slightly if needed */
+  }
+}
+
+/* Ensure the gauge content is centered vertically and horizontally */
+.gauge-widget-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}

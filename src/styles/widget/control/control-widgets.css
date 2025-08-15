@@ -1,0 +1,200 @@
+/* Control Widgets Styles */
+.control-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.control-widget:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.widget-badge {
+  background-color: #e0e0e0;
+  color: #666;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Single Switch Widget */
+.single-switch-widget .switch-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.single-switch-widget .switch-label {
+  font-weight: 500;
+  color: #424242;
+}
+
+/* Command Button Widget */
+.command-button-widget .command-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+.command-button-widget .response-indicator {
+  text-align: center;
+}
+
+/* Toggle Button Widget */
+.toggle-button-widget .toggle-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Two Segment Button Widget */
+.two-segment-button-widget .segment-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Value Stepper Widget */
+.value-stepper-widget .stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 8px;
+}
+
+.value-stepper-widget .value-display {
+  flex: 1;
+  text-align: center;
+  padding: 8px 16px;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+  background-color: #f8f9ff;
+}
+
+/* Power Button Widget */
+.power-button-widget .power-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+}
+
+/* Slider Widget */
+.slider-widget .slider-container {
+  padding: 16px 0;
+}
+
+/* Switch Control Widget */
+.switch-control-widget .switch-control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 120px;
+  justify-content: center;
+}
+
+/* Round Switch Widget */
+.round-switch-widget .round-switch-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 140px;
+  justify-content: center;
+}
+
+/* LED Indicator Widget */
+.led-indicator-widget .led-indicator-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 120px;
+  justify-content: center;
+}
+
+/* RPC Button Widget */
+.rpc-button-widget .rpc-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+/* Knob Control Widget */
+.knob-control-widget .knob-control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 160px;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .control-widget {
+    margin-bottom: 16px;
+  }
+  
+  .widget-header {
+    margin-bottom: 12px;
+  }
+  
+  .value-stepper-widget .stepper-container {
+    gap: 8px;
+  }
+  
+  .value-stepper-widget .value-display {
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .control-widget {
+    margin-bottom: 12px;
+  }
+  
+  .toggle-button-widget .toggle-buttons-container {
+    gap: 6px;
+  }
+  
+  .power-button-widget .power-button-container {
+    min-height: 120px;
+  }
+  
+  .knob-control-widget .knob-control-container {
+    min-height: 140px;
+  }
+}
+
+/* Dark Theme Support */
+.dark-theme .control-widget {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-theme .widget-badge {
+  background-color: #424242;
+  color: #ffffff;
+}
+
+.dark-theme .value-stepper-widget .value-display {
+  background-color: #2a2a2a;
+  border-color: #1976d2;
+  color: #ffffff;
+}
