@@ -52,10 +52,10 @@ RUN rm -f /etc/nginx/conf.d/default.conf && \
 # Copy the static build output
 # Vite outputs to /dist ; CRA outputs to /build — pick the right one.
 # If you use CRA, change /app/dist to /app/build.
-COPY --from=build /app/dist /usr/share/nginx/html
+# COPY --from=build /app/dist /usr/share/nginx/html
 
 # If CRA, use this instead of the line above:
-# COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
