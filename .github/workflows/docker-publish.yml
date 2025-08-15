@@ -1,17 +1,17 @@
-name: Docker Publish (GHCR)
+name: Build + Docker Publish (GHCR)
 
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]        # build on semver tags too
-  workflow_dispatch:           # allow manual runs with inputs
+    tags: [ 'v*.*.*' ]    # build on semver tags too
+  workflow_dispatch:
     inputs:
       image_name:
         description: 'Image name (owner/name). Default: <owner>/iotmining-frontend'
         required: false
         type: string
       custom_tag:
-        description: 'Optional custom tag (e.g., v1.0.0, staging, canary)'
+        description: 'Optional extra tag (e.g., v1.0.0, staging, canary)'
         required: false
         type: string
       docker_context:
@@ -36,25 +36,38 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # Default image name if not provided as input: <owner>/iotmining-frontend
-  IMAGE_NAME: ${{ github.repository_owner }}/iotmining-frontend
+  IMAGE_NAME: ${{ github.repository_owner }}/iotmining-frontend  # default
+  # Node/CRA noise & audit off by default
+  NPM_CONFIG_AUDIT: "false"
+  NPM_CONFIG_FUND: "false"
+  CI: "false"                           # prevents CRA from failing on warnings
+  DISABLE_ESLINT_PLUGIN: "true"         # skip CRA eslint in CI builds
 
 permissions:
   contents: read
   packages: write
   id-token: write
+  attestations: write
+
+concurrency:
+  group: docker-publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build-and-push:
+  prep:
+    name: Prep (tags & labels)
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-
+    outputs:
+      image_name: ${{ steps.resolve.outputs.val }}
+      tags: ${{ steps.meta.outputs.tags }}
+      labels: ${{ steps.meta.outputs.labels }}
+      digest_name: ${{ steps.meta.outputs.image }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Resolve image name
-        id: imagename
+        id: resolve
         run: |
           if [ -n "${{ inputs.image_name }}" ]; then
             echo "val=${{ inputs.image_name }}" >> $GITHUB_OUTPUT
@@ -62,75 +75,132 @@ jobs:
             echo "val=${IMAGE_NAME}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set up QEMU (multi-arch)
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Login with GITHUB_TOKEN (works for GHCR in same org/user)
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Compute tags via docker/metadata-action
-      - name: Extract Docker metadata (tags/labels)
+      - name: Docker metadata (tags/labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ steps.imagename.outputs.val }}
+          images: ${{ env.REGISTRY }}/${{ steps.resolve.outputs.val }}
           tags: |
-            # Always tag by commit
             type=raw,value=sha-${{ github.sha }}
-            # Branch name (e.g., main)
             type=ref,event=branch
-            # Latest only on default branch
             type=raw,value=latest,enable={{is_default_branch}}
-            # If you push a git tag like v1.2.3, also create semver tags
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            # Optional custom tag from manual dispatch
             type=raw,value=${{ inputs.custom_tag }},enable=${{ inputs.custom_tag != '' }}
           labels: |
             org.opencontainers.image.source=${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.title=iotmining-frontend
 
-      # Optional: if your Dockerfile needs private NPM auth, surface a .npmrc from secrets
-      # (Uncomment if you rely on private registries)
-      # - name: Create npmrc for build
-      #   if: ${{ secrets.NPM_TOKEN != '' }}
-      #   run: |
-      #     echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+  node-ci:
+    name: Node CI (lint • test • build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Build & Push (multi-arch)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps (no audit/fund)
+        run: npm ci --no-audit --fund=false
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test
+        run: npm test --if-present -- --ci --reporters=default
+        env:
+          CI: "false"     # don’t fail on warnings
+
+      - name: Build (CRA/Vite)
+        run: npm run build
+        env:
+          CI: "false"
+          DISABLE_ESLINT_PLUGIN: "true"
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+          VITE_BASE: ${{ vars.VITE_BASE }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+
+      # Upload build output (useful for debugging or for separate static hosting)
+      - name: Detect build dir
+        id: outdir
+        run: |
+          if [ -d "dist" ]; then echo "dir=dist" >> $GITHUB_OUTPUT; \
+          elif [ -d "build" ]; then echo "dir=build" >> $GITHUB_OUTPUT; \
+          else echo "dir=" >> $GITHUB_OUTPUT; fi
+
+      - name: Upload web artifact
+        if: ${{ steps.outdir.outputs.dir != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-${{ github.sha }}
+          path: ${{ steps.outdir.outputs.dir }}
+          retention-days: 7
+
+  docker-build:
+    name: Docker Build & Push (multi‑arch)
+    needs: [prep, node-ci]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: QEMU (multi-arch)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: GHCR login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Optional: show context for monorepos
+      - name: List context
+        run: |
+          ls -la
+          echo "Context: ${{ inputs.docker_context || '.' }}"
+          echo "Dockerfile: ${{ inputs.dockerfile || 'Dockerfile' }}"
+
+      - name: Build & Push
         uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.docker_context || '.' }}
           file: ${{ inputs.dockerfile || 'Dockerfile' }}
           push: true
           platforms: ${{ inputs.platforms || 'linux/amd64,linux/arm64' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ needs.prep.outputs.tags }}
+          labels: ${{ needs.prep.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # Build args from repo Variables/Secrets and/or workflow input
           build-args: |
             VITE_API_BASE=${{ vars.VITE_API_BASE }}
             VITE_BASE=${{ vars.VITE_BASE }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-            ${{ inputs.build_args }}
-            # If you used secrets in Dockerfile with --mount=type=secret,id=npmrc
-            # secrets: |
-            #   id=npmrc,src=.npmrc
-            # 👇 unblock CRA lint failures in CI
             CI=false
             DISABLE_ESLINT_PLUGIN=true
-            # optionally silence npm audit/fund noise
             NPM_CONFIG_AUDIT=false
             NPM_CONFIG_FUND=false
             ${{ inputs.build_args }}
+
+  provenance:
+    name: Attach Provenance (SLSA)
+    needs: [docker-build, prep]
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.docker-build.result == 'success' }}
+    steps:
+      - name: Attest Build Provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ needs.prep.outputs.image_name }}
+          # digest is auto detected from last push by this action (if available);
+          # otherwise you can parse and pass one explicitly.
+          push-to-registry: true
