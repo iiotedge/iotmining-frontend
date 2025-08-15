@@ -124,13 +124,13 @@ jobs:
             VITE_BASE=${{ vars.VITE_BASE }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
             ${{ inputs.build_args }}
-          # If you used secrets in Dockerfile with --mount=type=secret,id=npmrc
-          # secrets: |
-          #   id=npmrc,src=.npmrc
-          # 👇 unblock CRA lint failures in CI
-          CI=false
-          DISABLE_ESLINT_PLUGIN=true
-          # optionally silence npm audit/fund noise
-          NPM_CONFIG_AUDIT=false
-          NPM_CONFIG_FUND=false
-          ${{ inputs.build_args }}
+            # If you used secrets in Dockerfile with --mount=type=secret,id=npmrc
+            # secrets: |
+            #   id=npmrc,src=.npmrc
+            # 👇 unblock CRA lint failures in CI
+            CI=false
+            DISABLE_ESLINT_PLUGIN=true
+            # optionally silence npm audit/fund noise
+            NPM_CONFIG_AUDIT=false
+            NPM_CONFIG_FUND=false
+            ${{ inputs.build_args }}
