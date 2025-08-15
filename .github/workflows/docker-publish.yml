@@ -126,7 +126,6 @@ jobs:
           VITE_BASE: ${{ vars.VITE_BASE }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
-      # Upload build output (useful for debugging or for separate static hosting)
       - name: Detect build dir
         id: outdir
         run: |
@@ -143,10 +142,12 @@ jobs:
           retention-days: 7
 
   docker-build:
-    name: Docker Build & Push (multi‑arch)
+    name: Docker Build & Push (multi-arch)
     needs: [prep, node-ci]
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
 
@@ -163,7 +164,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Optional: show context for monorepos
       - name: List context
         run: |
           ls -la
@@ -171,6 +171,7 @@ jobs:
           echo "Dockerfile: ${{ inputs.dockerfile || 'Dockerfile' }}"
 
       - name: Build & Push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.docker_context || '.' }}
@@ -201,6 +202,6 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ needs.prep.outputs.image_name }}
-          # digest is auto detected from last push by this action (if available);
-          # otherwise you can parse and pass one explicitly.
+          subject-digest: ${{ needs.docker-build.outputs.digest }}
           push-to-registry: true
+          show-summary: true
