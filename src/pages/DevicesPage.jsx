@@ -16,6 +16,8 @@ import {
   Select,
   Spin,
   message,
+  Result,
+  theme
 } from "antd"
 import {
   ReloadOutlined,
@@ -31,10 +33,14 @@ import {
   LineChartOutlined,
   BarChartOutlined,
   PieChartOutlined,
+  LockOutlined,
+  CustomerServiceOutlined,
+  LoginOutlined,
 } from "@ant-design/icons"
 import AddDeviceModal from "../components/device/AddDeviceModal"
 import DeviceDetailsDrawer from "../components/device/DeviceDetailsDrawer"
 import DeviceCreationSuccess from "../components/device/DeviceCreationSuccess"
+import UnauthorizedPage from "./UnauthorizedPage"
 import { useMediaQuery } from "../hooks/useMediaQuery"
 import { useNavigate } from "react-router-dom"
 import { getDeviceList, getDeviceById, addDevice } from "../api/deviceApi"
@@ -263,16 +269,20 @@ const DevicesPage = () => {
     await fetchDevices(pagination.page, pagination.size)
   }
 
-  if (!tenantId) {
-    return (
-      <div style={{ padding: 40 }}>
-        <Typography.Text type="danger">
-          Tenant ID missing. Please log in again.
-        </Typography.Text>
-      </div>
-    )
-  }
+  // if (!tenantId) {
+  //   return (
+  //     <div style={{ padding: 40 }}>
+  //       <Typography.Text type="danger">
+  //         You are not authorized to access this application. <br />
+  //         Please log in again or contact support if the issue persists.
+  //       </Typography.Text>
+  //     </div>
+  //   );
+  // }
 
+  if (!tenantId) {
+    return <UnauthorizedPage />
+  }
   return (
     <div className="devices-page">
       <Card

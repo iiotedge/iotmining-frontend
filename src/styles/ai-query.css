@@ -1,0 +1,269 @@
+.ai-query-page {
+  height: 100vh;
+  background: var(--background-color);
+}
+
+.ai-query-header {
+  background: var(--card-background);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ai-chat-container {
+  background: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.messages-container {
+  background: var(--background-color-light);
+  border-radius: 8px 8px 0 0;
+}
+
+.ai-message {
+  margin-bottom: 16px;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.ai-message.user-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ai-message.user-message .message-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ai-message.user-message .message-content {
+  background: #1890ff;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.ai-message.ai-response {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ai-message.ai-response .message-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ai-message.ai-response .message-content {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: 18px 18px 18px 4px;
+  max-width: 85%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ai-message.typing .message-content {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 18px 18px 18px 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.message-time {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+.message-data {
+  margin-top: 16px;
+}
+
+.message-charts {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--background-color-light);
+  border-radius: 8px;
+}
+
+.license-plate-results,
+.fire-detection-results,
+.water-detection-results,
+.anomalies-results {
+  margin-top: 12px;
+}
+
+.welcome-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+}
+
+.quick-questions {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quick-questions .ant-btn {
+  margin: 4px;
+  height: auto;
+  padding: 8px 12px;
+  white-space: normal;
+  text-align: left;
+}
+
+.input-container {
+  background: var(--card-background);
+  border-top: 1px solid var(--border-color);
+}
+
+.input-container .ant-input {
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.input-container .ant-btn {
+  border-radius: 20px;
+  height: auto;
+  padding: 12px 20px;
+  margin-left: 8px;
+}
+
+/* Live Analysis Sidebar */
+.ant-drawer-body {
+  padding: 16px;
+}
+
+.ant-drawer-body .ant-card {
+  margin-bottom: 16px;
+}
+
+.ant-drawer-body .ant-timeline {
+  margin-top: 16px;
+}
+
+.ant-drawer-body .ant-timeline-item-content {
+  margin-left: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-query-header {
+    padding: 16px;
+  }
+
+  .ai-message.user-message .message-content,
+  .ai-message.ai-response .message-content {
+    max-width: 95%;
+  }
+
+  .quick-questions .ant-btn {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  .input-container .ant-input {
+    border-radius: 16px;
+    padding: 10px 14px;
+  }
+
+  .input-container .ant-btn {
+    border-radius: 16px;
+    padding: 10px 16px;
+  }
+}
+
+/* Dark Theme Adjustments */
+[data-theme="dark"] .ai-query-page {
+  --background-color: #141414;
+  --background-color-light: #1f1f1f;
+  --card-background: #1f1f1f;
+  --border-color: #303030;
+  --text-color-secondary: #8c8c8c;
+}
+
+[data-theme="light"] .ai-query-page {
+  --background-color: #f0f2f5;
+  --background-color-light: #fafafa;
+  --card-background: #ffffff;
+  --border-color: #f0f0f0;
+  --text-color-secondary: #8c8c8c;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Chart Containers */
+.message-charts .ant-typography-h5 {
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+/* Status Badges */
+.ant-badge-status-processing {
+  animation: antStatusProcessing 1.2s infinite ease-in-out;
+}
+
+@keyframes antStatusProcessing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Custom Scrollbar */
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: var(--background-color);
+  border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+}

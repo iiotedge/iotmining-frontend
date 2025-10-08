@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom"
 import {
   HomeOutlined,
   AlertOutlined,
+  FileTextOutlined,
   DashboardOutlined,
   AppstoreOutlined,
   SettingOutlined,
@@ -16,6 +17,9 @@ import {
   CloseOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  SafetyCertificateOutlined,
+  CustomerServiceOutlined,
+  RobotOutlined
 } from "@ant-design/icons"
 import logo from "../../assets/iotmining-logo.png"
 import full_logo from "../../assets/iotmining-logo-full.png"
@@ -77,6 +81,7 @@ const SideNavigation = ({ mobileOpen, setMobileOpen }) => {
       [
         { key: "home", icon: <HomeOutlined />, label: <Link to="/">Home</Link> },
         { key: "alarms", icon: <AlertOutlined />, label: <Link to="/alarms">Alarms</Link> },
+        { key: "reports", icon: <FileTextOutlined />, label: <Link to="/reports">Reports</Link> }, //FileTextOutlined
         hasRole(["ROLE_ADMIN", "ROLE_MANAGER"]) && {
           key: "dashboards",
           icon: <DashboardOutlined />,
@@ -102,12 +107,15 @@ const SideNavigation = ({ mobileOpen, setMobileOpen }) => {
             { key: "asset-profiles", label: <Link to="/asset-profiles">Asset profiles</Link> },
           ],
         },
+        { key: "system-logs-monitoring", icon: <SafetyCertificateOutlined />, label: <Link to="/system-logs-monitoring">System Logs & Monitoring</Link> }, //FileTextOutlined
         hasRole(["ROLE_ADMIN"]) && {
           key: "customers",
           icon: <TeamOutlined />,
           label: <Link to="/customers">Customers</Link>,
         },
+        { key: "ai-query", icon: <RobotOutlined />, label: <Link to="/ai-query">AI Query</Link> },
         { key: "rule-chains", icon: <NodeIndexOutlined />, label: <Link to="/rule-chains">Rule chains</Link> },
+        { key: "support", icon: <CustomerServiceOutlined />, label: <Link to="/support">Support</Link> },
         { key: "settings", icon: <SettingOutlined />, label: <Link to="/settings">Settings</Link> },
       ].filter(Boolean),
     [roles]

@@ -1,0 +1,14 @@
+.report-modal .ant-modal-content {
+  max-height: calc(100dvh - 64px); /* keep inside viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+.report-modal .ant-modal-body {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.report-modal .ant-modal {
+  padding-bottom: 0;
+}
